@@ -1,0 +1,49 @@
+service: honeydew-server
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  region: ${opt:region, self:provider.region}
+  stages:
+    - development
+    - staging
+    - production
+provider:
+  name: aws
+  runtime: nodejs10.x
+  timeout: 15
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "lambda:InvokeFunction"
+      Resource: "arn:aws:lambda:us-east-1::function:honeydew-server-${opt:stage}-api"
+  environment:
+    NODE_ENV: ${file(./.env.yml):${opt:stage}.NODE_ENV}
+    MONGODB_URI: ${file(./.env.yml):${opt:stage}.MONGODB_URI}
+    MONGODB_NAME: ${file(./.env.yml):${opt:stage}.MONGODB_NAME}
+    LOG_LEVEL: ${file(./.env.yml):${opt:stage}.LOG_LEVEL}
+    PARSE_APP_ID: ${file(./.env.yml):${opt:stage}.PARSE_APP_ID}
+    PARSE_JS_KEY: ${file(./.env.yml):${opt:stage}.PARSE_JS_KEY}
+    PARSE_MASTER_KEY: ${file(./.env.yml):${opt:stage}.PARSE_MASTER_KEY}
+    FCM_API_KEY: ${file(./.env.yml):${opt:stage}.FCM_API_KEY}
+    FCM_SENDER_ID: ${file(./.env.yml):${opt:stage}.FCM_SENDER_ID}
+    MAILGUN_KEY: ${file(./.env.yml):${opt:stage}.MAILGUN_KEY}
+    GOOGLE_PLAY_CLIENT_EMAIL: ${file(./.env.yml):${opt:stage}.GOOGLE_PLAY_CLIENT_EMAIL}
+    GOOGLE_PLAY_PRIVATE_KEY: ${file(./.env.yml):${opt:stage}.GOOGLE_PLAY_PRIVATE_KEY}
+    ENVIRONMENT: ${opt:stage}
+    PARSE_SERVER_URL: https://api.danepowell.com/honeydew-${opt:stage}/parse
+    PARSE_SERVER_LOGS_FOLDER: /tmp
+    TZ: America/Los_Angeles
+functions:
+  api:
+    handler: lambda.handler
+    events:
+      - http: ANY {proxy+}
+      - schedule:
+          name: honeydew-server-${opt:stage}-warmer
+          rate: rate(5 minutes)
+          enabled: true
+          input:
+            warmer: true
+            concurrency: 4
+plugins:
+  - serverless-stage-manager
+  - serverless-version-tracker

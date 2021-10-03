@@ -1,0 +1,33 @@
+{
+  "name": "honeydew",
+  "version": "1.4.0",
+  "description": "Parse API and express server.",
+  "license": "GPLv3",
+  "engines": {
+    "node": "10.x",
+    "npm": "6.2.0"
+  },
+  "private": true,
+  "dependencies": {
+    "aws-serverless-express": "^3.3.6",
+    "body-parser": "^1.19.0",
+    "express": "^4.16.4",
+    "googleapis": "^33.0.0",
+    "lambda-warmer": "^1.1.1",
+    "mongodb-core": "3.2.3",
+    "mongodb": "3.2.3",
+    "morgan": "^1.9.1",
+    "parse": "^2.4.0",
+    "parse-server": "^3.3.0",
+    "pug": "^2.0.3",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-plugin-import": "^2.17.2",
+    "jasmine": "^3.4.0",
+    "nodemon": "^1.19.0",
+    "serverless-stage-manager": "^1.0.5",
+    "serverless-version-tracker": "^1.0.1"
+  }
+}

@@ -1,0 +1,2 @@
+Can't update eslint, waiting on https://github.com/ahmadnassri/har-validator/pull/109
+Can't update winston, waiting on Parse server to update their dependency on winston-daily-rotate-logs. flov whoever was working on this.

@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  #groceryapp
+    .title
+      h1
+        img(src="")
+    .content
+      div.login
+        form.login-form(method="post")
+          if error
+            .error= error
+          label(for="username") Enter your Honeydew email and password:
+          input#username(type="email", name="username", placeholder="email address")
+          input#password(type="password", name="password", placeholder="password")
+          button Log in
+      div.post
+        p.
+          Don't have a Honeydew account? Create one using the Android app: https://goo.gl/vZ0AFS
